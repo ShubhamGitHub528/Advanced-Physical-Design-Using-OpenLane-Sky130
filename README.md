@@ -324,15 +324,111 @@ To view the floorplan, Magic is invoked after moving to the ```results/floorplan
 magic -T /home/shubham/.volare/sky130A/libs.tech/magic/sky130A.tech lef read ../../tmp/merged.nom.lef def read picorv32.def &
 ```
 
+
 ![Screenshot from 2023-09-16 06-59-08](https://github.com/ShubhamGitHub528/ASIC/assets/140998623/c7a581e4-8abf-4d90-8041-d1cb7ca03fc0)
 ![Screenshot from 2023-09-16 07-00-03](https://github.com/ShubhamGitHub528/ASIC/assets/140998623/d21f1ff0-6d90-4fc2-8461-cf47090c5347)
 
+### Placement 
+
+#### Placement Optimization
+
+The next step in the OpenLANE ASIC flow is placement. The synthesized netlist is to be placed on the floorplan. Placement is perfomed in 2 stages:
+
+1. Global Placement: It finds optimal position for all cells which may not be legal and cells may overlap. Optimization is done through reduction of half parameter wire length.
+2. Detailed Placement: It alters the position of cells post global placement so as to legalise them.
+
+Legalisation of cells is important from timing point of view. 
+
+#### Placement run on OpenLANE & view in Magic
+
+Command:
+
+```
+run_placement
+```
+![Screenshot from 2023-09-16 10-36-26](https://github.com/ShubhamGitHub528/ASIC/assets/140998623/20bd0d6e-8b96-4e8d-aa91-6702d6ba6d18)
+
+![openlane - placement - run_placement-1](https://user-images.githubusercontent.com/83152452/185789104-a2284118-7e56-439e-abac-bb1ba669e72b.png)
+
+The objective of placement is the convergence of overflow value. If overflow value progressively reduces during the placement run it implies that the design will converge and placement will be successful. Post placement, the design can be viewed on magic within ```results/placement``` directory:
+
+```
+/OpenLane/designs/picorv32a/runs/RUN_2023.09.16_05.04.39/results/placement$ magic -T /home/shubham/.volare/sky130A/libs.tech/magic/sky130A.tech lef read ../../tmp/merged.nom.lef def read picorv32.def &
+```
+![Screenshot from 2023-09-16 11-06-45](https://github.com/ShubhamGitHub528/ASIC/assets/140998623/c3c27587-ef21-4d5c-abeb-84c277004e77)
+![Screenshot from 2023-09-16 11-07-07](https://github.com/ShubhamGitHub528/ASIC/assets/140998623/5f94d9b6-23f1-46cb-a2dc-32a3e8ba9e79)
+
+### Libraries
+
+![Screenshot from 2023-09-16 10-15-45](https://github.com/ShubhamGitHub528/ASIC/assets/140998623/b861ff42-b315-42ed-bb47-95275cba6a7e)
+![Screenshot from 2023-09-16 10-16-16](https://github.com/ShubhamGitHub528/ASIC/assets/140998623/a4e7caa1-f8a6-4411-8311-37d1e0145f6a)
+![Screenshot from 2023-09-16 10-16-38](https://github.com/ShubhamGitHub528/ASIC/assets/140998623/88f8129b-3ca4-4470-bd22-a1d68cfca096)
+![Screenshot from 2023-09-16 10-19-07](https://github.com/ShubhamGitHub528/ASIC/assets/140998623/fc6939de-b4eb-4a06-b474-bee6af74f298)
+![Screenshot from 2023-09-16 10-19-17](https://github.com/ShubhamGitHub528/ASIC/assets/140998623/3332db55-9fc8-4bf9-8cdb-e5f3897b9b07)
+![Screenshot from 2023-09-16 10-20-10](https://github.com/ShubhamGitHub528/ASIC/assets/140998623/77de2da8-b0fc-495e-b789-a354a4b94e17)
 
 
 
+### CELL DESIGN AND CHARACETRIZATION FLOWS
+
+Library is a place where we get information about every cell. It has differents cells with different size, functionality,threshold voltages. There is a typical cell design flow steps.
+1. Inputs : PDKS(process design kit) : DRC & LVS, SPICE Models, library & user-defined specs.
+2. Design Steps :Circuit design, Layout design (Art of layout Euler's path and stick diagram), Extraction of parasitics, Characterization (timing, noise, power).
+3. Outputs: CDL (circuit description language), LEF, GDSII, extracted SPICE netlist (.cir), timing, noise and power .lib files
+
+![Screenshot from 2023-09-16 11-12-42](https://github.com/ShubhamGitHub528/ASIC/assets/140998623/d7848c1b-1f40-4dd7-b95e-c77cd7b04a96)
 
 
+### Standard Cell Characterization Flow
 
+A typical standard cell characterization flow that is followed in the industry includes the following steps:
+
+1. Read in the models and tech files
+2. Read extracted spice Netlist
+3. Recognise behavior of the cells
+4. Read the subcircuits
+5. Attach power sources
+6. Apply stimulus to characterization setup
+7. Provide neccesary output capacitance loads
+8. Provide neccesary simulation commands
+
+Now all these 8 steps are fed in together as a configuration file to a characterization software called GUNA. This software generates timing, noise, power models.
+These .libs are classified as Timing characterization, power characterization and noise characterization.
+
+
+### TIMING CHARACTERIZATION
+
+In standard cell characterisation, One of the classification of libs is timing characterisation.
+
+#### Timing threshold definitions 
+Timing defintion |	Value
+-------------- | --------------
+slew_low_rise_thr	| 20% value
+slew_high_rise_thr | 80% value
+slew_low_fall_thr |	20% value
+slew_high_fall_thr |	80% value
+in_rise_thr	| 50% value
+in_fall_thr |	50% value
+out_rise_thr |	50% value
+out_fall_thr | 50% value
+
+#### Propagation Delay and Transition Time 
+
+**Propagation Delay** 
+The time difference between when the transitional input reaches 50% of its final value and when the output reaches 50% of its final value. Poor choice of threshold values lead to negative delay values. Even thought you have taken good threshold values, sometimes depending upon how good or bad the slew, the dealy might be still +ve or -ve.
+
+```
+Propagation delay = time(out_thr) - time(in_thr)
+```
+**Transition Time**
+
+The time it takes the signal to move between states is the transition time , where the time is measured between 10% and 90% or 20% to 80% of the signal levels.
+
+```
+Rise transition time = time(slew_high_rise_thr) - time (slew_low_rise_thr)
+
+Low transition time = time(slew_high_fall_thr) - time (slew_low_fall_thr)
+```
 
 
 
@@ -377,6 +473,10 @@ To see layout after floorplan use the command:
 OpenLane/designs/picorv32a/runs/RUN_2023.09.11_08.17.54/results/floorplan$ magic -T /home/shubham/.volare/sky130A/libs.tech/magic/sky130A.tech lef read ../../tmp/merged.nom.lef def read picorv32.def &
 ```
 magi -T (Tech file location) lef read (merged file which is two level up) def read (def file) & (to free RAM)
+
+### Placement & Routing
+Logic Synthesis: Convert RTL functionalty to Hardware.
+
 
 
 
