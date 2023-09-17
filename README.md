@@ -940,3 +940,19 @@ Now tapp using nsubstratencontact shown below it will change DRC:
 
 
 
+
+
+
+
+
+
+
+
+# Magic 
+
+
+/OpenLane/designs/picorv32a/runs/RUN_2022.08.17_16.22.21/results/placement$ magic -T /home/shubham/.volare/sky130A/libs.tech/magic/sky130A.tech lef read ../../tmp/merged.nom.lef def read picorv32.def
+
+
+
+
