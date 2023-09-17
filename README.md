@@ -431,51 +431,511 @@ Low transition time = time(slew_high_fall_thr) - time (slew_low_fall_thr)
 ```
 
 
+## DAY 3 : Design Library Cell using magic and ngspice
+
+### Inverter
+
+A **CMOS inverter**, short for Complementary Metal-Oxide-Semiconductor inverter, is a fundamental digital electronic circuit that performs the basic logical operation of inversion. In other words, it takes an input signal and produces an output signal that is the logical complement of the input. If the input is high (logic 1), the output will be low (logic 0), and vice versa.  
+
+The input signal is applied to the gate terminals of both the NMOS and PMOS transistors. The output is taken from the connection point (the drain of NMOS and the source of PMOS) between these two transistors.  
+
+**NMOS Operation**: When the input is logic high (1), the NMOS transistor turns on because a positive voltage is applied to its gate. This establishes a low-resistance path between the output and ground, causing the output to be pulled to logic low (0).  
+
+**PMOS Operation**: Conversely, when the input is logic low (0), the PMOS transistor turns on because a low voltage is applied to its gate. This establishes a low-resistance path between the output and the power supply voltage (VDD), causing the output to be pulled to logic high (1).
 
 
+Below shown the inverter diagram : 
 
+![inverter](https://github.com/Pruthvi-Parate/Advanced_Physical_Design_Using_OpenLANE/assets/72121158/c0f143c3-3806-4d74-a701-2d38e8475298)
 
+Below shows nodes:   
 
+![2inverternodes](https://github.com/Pruthvi-Parate/Advanced_Physical_Design_Using_OpenLANE/assets/72121158/08d0db99-e46f-447c-80b5-7227ad9fadbc)
 
+Here is spice deck simulation shown:  
 
+![3spicedeck](https://github.com/Pruthvi-Parate/Advanced_Physical_Design_Using_OpenLANE/assets/72121158/db0c1c30-0a35-417d-80b8-d48ec66ec503)
 
+Here is a cmos.cir file: 
 
-## Day2:
+![image](https://github.com/Pruthvi-Parate/Advanced_Physical_Design_Using_OpenLANE/assets/72121158/013b3083-47b6-42c4-a65b-d52916dee748)
 
-Chip floor planning and consideration.
-1) Define Width and height of Core and Die:
-Netlist : Defines connectivity between all the components.
+Below is the model file : 
 
-2) Define Location of Preplaced cells:
-   eg. Memory, Clock-gating cell, Comparator, Mux.
-
-3) De-Coupling Capacitors:
-   Whenever their is switching DeCoupling capacitor will supply charge. hence, voltage remains constant.
-
-#Fig2
-
-4) Power Planning.
-
-
-5) Pin Placement.
-   
-
-
-
-
-
-
-
-
-
-To see layout after floorplan use the command:
 ```
-OpenLane/designs/picorv32a/runs/RUN_2023.09.11_08.17.54/results/floorplan$ magic -T /home/shubham/.volare/sky130A/libs.tech/magic/sky130A.tech lef read ../../tmp/merged.nom.lef def read picorv32.def &
-```
-magi -T (Tech file location) lef read (merged file which is two level up) def read (def file) & (to free RAM)
+* SPICE 3f5 Level 8, Star-HSPICE Level 49, UTMOST Level 8
 
-### Placement & Routing
-Logic Synthesis: Convert RTL functionalty to Hardware.
+.lib cmos_models 
+* DATE: Feb 23/01
+* LOT: T0BM                  WAF: 07
+* Temperature_parameters=Default
+.MODEL nmos  NMOS (                                LEVEL   = 49
++VERSION = 3.1            TNOM    = 27             TOX     = 5.8E-9
++XJ      = 1E-7           NCH     = 2.3549E17      VTH0    = 0.3907535
++K1      = 0.4376003      K2      = 8.265151E-3    K3      = 4.214601E-3
++K3B     = -3.7220937     W0      = 2.517345E-6    NLX     = 2.310668E-7
++DVT0W   = 0              DVT1W   = 0              DVT2W   = 0
++DVT0    = 0.2411602      DVT1    = 0.3707226      DVT2    = -0.5
++U0      = 316.5922683    UA      = -9.89493E-10   UB      = 2.154013E-18
++UC      = 2.474632E-11   VSAT    = 1.254499E5     A0      = 1.2735648
++AGS     = 0.2428704      B0      = 2.579719E-8    B1      = -1E-7
++KETA    = 4.87168E-4     A1      = 0              A2      = 0.5196633
++RDSW    = 120            PRWG    = 0.5            PRWB    = -0.2
++WR      = 1              WINT    = 2.357855E-8    LINT    = 1.210018E-9
++DWG     = 2.292632E-9
++DWB     = -9.94921E-10   VOFF    = -0.1039771     NFACTOR = 1.3905578
++CIT     = 0              CDSC    = 2.4E-4         CDSCD   = 0
++CDSCB   = 0              ETA0    = 3.894977E-3    ETAB    = 7.800632E-4
++DSUB    = 0.0307944      PCLM    = 1.7312397      PDIBLC1 = 0.999135
++PDIBLC2 = 4.850036E-3    PDIBLCB = -0.0866866     DROUT   = 0.8612131
++PSCBE1  = 7.995844E10    PSCBE2  = 1.457011E-8    PVAG    = 0.0099984
++DELTA   = 0.01           RSH     = 5              MOBMOD  = 1
++PRT     = 0              UTE     = -1.5           KT1     = -0.11
++KT1L    = 0              KT2     = 0.022          UA1     = 4.31E-9
++UB1     = -7.61E-18      UC1     = -5.6E-11       AT      = 3.3E4
++WL      = 0              WLN     = 1              WW      = -1.22182E-16
++WWN     = 1.2127         WWL     = 0              LL      = 0
++LLN     = 1              LW      = 0              LWN     = 1
++LWL     = 0              CAPMOD  = 2              XPART   = 0.4
++CGDO    = 3.11E-10       CGSO    = 3.11E-10       CGBO    = 1E-12
++CJ      = 1.741905E-3    PB      = 0.9876681      MJ      = 0.4679558
++CJSW    = 3.653429E-10   PBSW    = 0.99           MJSW    = 0.2943558
++CF      = 0              PVTH0   = -0.01          PRDSW   = 0
++PK2     = 2.589681E-3    WKETA   = -1.866069E-3   LKETA   = -0.0166961      )
+*
+.MODEL pmos  PMOS (                                LEVEL   = 49
++VERSION = 3.1            TNOM    = 27             TOX     = 5.8E-9
++XJ      = 1E-7           NCH     = 4.1589E17      VTH0    = -0.583228
++K1      = 0.5999865      K2      = 6.150203E-3    K3      = 0
++K3B     = 3.6314079      W0      = 1E-6           NLX     = 1E-9
++DVT0W   = 0              DVT1W   = 0              DVT2W   = 0
++DVT0    = 2.8749516      DVT1    = 0.7488605      DVT2    = -0.0917408
++U0      = 136.076212     UA      = 2.023988E-9    UB      = 1E-21
++UC      = -9.26638E-11   VSAT    = 2E5            A0      = 0.951197
++AGS     = 0.20963        B0      = 1.345599E-6    B1      = 5E-6
++KETA    = 0.0114727      A1      = 3.851541E-4    A2      = 0.614676
++RDSW    = 1.496983E3     PRWG    = -0.0440632     PRWB    = -0.2945454
++WR      = 1              WINT    = 7.879211E-9    LINT    = 2.894523E-8
++DWG     = -1.112097E-8
++DWB     = 9.815716E-9    VOFF    = -0.1204623     NFACTOR = 1.2259401
++CIT     = 0              CDSC    = 2.4E-4         CDSCD   = 0
++CDSCB   = 0              ETA0    = 0.3325261      ETAB    = -0.0623452
++DSUB    = 0.9206875      PCLM    = 0.833903       PDIBLC1 = 9.948506E-4
++PDIBLC2 = 0.0191187      PDIBLCB = -1E-3          DROUT   = 0.9938581
++PSCBE1  = 2.887413E10    PSCBE2  = 8.325891E-9    PVAG    = 0.8478443
++DELTA   = 0.01           RSH     = 3.6            MOBMOD  = 1
++PRT     = 0              UTE     = -1.5           KT1     = -0.11
++KT1L    = 0              KT2     = 0.022          UA1     = 4.31E-9
++UB1     = -7.61E-18      UC1     = -5.6E-11       AT      = 3.3E4
++WL      = 0              WLN     = 1              WW      = 0
++WWN     = 1              WWL     = 0              LL      = 0
++LLN     = 1              LW      = 0              LWN     = 1
++LWL     = 0              CAPMOD  = 2              XPART   = 0.4
++CGDO    = 2.68E-10       CGSO    = 2.68E-10       CGBO    = 1E-12
++CJ      = 1.864957E-3    PB      = 0.976468       MJ      = 0.4614408
++CJSW    = 3.118281E-10   PBSW    = 0.6870843      MJSW    = 0.3021929
++CF      = 0              PVTH0   = 6.397941E-3    PRDSW   = 30.410214
++PK2     = 2.100359E-3    WKETA   = 5.428923E-3    LKETA   = -0.0111599      )
+*
+.endl
+```
+
+![1ngspice](https://github.com/Pruthvi-Parate/Advanced_Physical_Design_Using_OpenLANE/assets/72121158/7beb4d5c-48ab-428d-a04a-0dfa258192b2)
+
+
+to run it open ngspice and in command give :  
+
+```
+source cmos.cir
+```
+
+![2ngspice](https://github.com/Pruthvi-Parate/Advanced_Physical_Design_Using_OpenLANE/assets/72121158/328c0c48-2b89-46b3-8073-b10ff8f2b56d)
+
+
+To execute it : 
+
+`
+run
+`
+Then using `setplot` you can set the dc plot.  
+Also you can see by usign `display`  
+
+Now using `plot out vs in` Below graph will be seen:  
+
+![plot](https://github.com/Pruthvi-Parate/Advanced_Physical_Design_Using_OpenLANE/assets/72121158/a7d70792-0e1b-4832-97ec-3ac5af4fd2b6)
+
+Now if we increase the width of pmos which is `0.9375` below graph is seen and you can compare it with the above graph :  
+
+![shiftplot](https://github.com/Pruthvi-Parate/Advanced_Physical_Design_Using_OpenLANE/assets/72121158/8772dcb3-772b-4da2-bebe-c1cb717cbb7d)
+
+Below shown switching threshold representation where `Wp/Lp and xWn/Ln` relation and calculation shown: 
+
+![4switchthreshold](https://github.com/Pruthvi-Parate/Advanced_Physical_Design_Using_OpenLANE/assets/72121158/be436190-b7b5-49d1-8cb7-98dd18e6324d)
+
+
+Below is the modified cmos file:  
+
+![image](https://github.com/Pruthvi-Parate/Advanced_Physical_Design_Using_OpenLANE/assets/72121158/271af951-0287-4ea5-83b3-1b700bace805)
+
+Here is the graph of `out vs time` 
+
+![ckt2OutvsTime](https://github.com/Pruthvi-Parate/Advanced_Physical_Design_Using_OpenLANE/assets/72121158/d17a1a4e-8c0d-49a1-a6dd-9d5ec2876083)
+
+Now here is the graph of `out vs time in`
+
+![ckt2OutvsTimeIn](https://github.com/Pruthvi-Parate/Advanced_Physical_Design_Using_OpenLANE/assets/72121158/b63e5e15-85bc-4570-8ab7-0931995cf250)
+
+To find the difference between two graph points just drag with mouse and it will zoom and then you can just click on the graph.  
+It will show the points in ngspice terminal:  
+
+![2diffckt2OutvsTimeIn](https://github.com/Pruthvi-Parate/Advanced_Physical_Design_Using_OpenLANE/assets/72121158/176fb2ef-fb76-4d81-9687-84075023721e)
+
+![diffckt2OutvsTimeIn](https://github.com/Pruthvi-Parate/Advanced_Physical_Design_Using_OpenLANE/assets/72121158/85cf86c9-defc-494e-a6a8-80c77c60aa77)
+
+
+### CMOS Fabrication Process  
+
+
+The 16-mask CMOS fabrication process is explained below :  
+
+
+1. **Substrate Selection**: Selecting a substrate is a important step in semiconductor manufacturing and integrated circuit (IC) fabrication. The substrate is the foundational material upon which the entire IC will be built. Typically, silicon (Si) is the most commonly used substrate material for most modern ICs due to its favorable properties, but other materials like gallium arsenide (GaAs) or silicon carbide (SiC) are also used in specific applications.
+2. **Creating active region for transistors**: Creating active regions for transistors involves isolating specific areas on a silicon substrate where transistors will be located. This isolation is achieved by depositing layers of silicon dioxide (SiO2) and silicon nitride (Si3N4) on the substrate. Then, using photolithography and etching techniques, patterns are defined on the silicon nitride layer. These patterns determine where the active regions for transistors will be. The remaining SiO2 and exposed silicon regions become the isolated pockets where transistor components will be fabricated. This isolation is crucial to prevent unwanted electrical interactions between transistors and ensure their proper functioning.
+3. **N-well and P-well formation**: The formation of N-well and P-well regions in CMOS technology involves ion implantation using specific dopants. Boron is utilized for P-well formation, while Phosphorus is employed for N-well creation. These dopants are implanted into the silicon substrate to define the N-well and P-well regions, which are essential components for building complementary NMOS and PMOS transistors, respectively.
+
+4. **Formation of gate terminal**: The gate terminals for NMOS (N-channel Metal-Oxide-Semiconductor) and PMOS (P-channel Metal-Oxide-Semiconductor) transistors are created through photolithography techniques. In this process, precise patterns are defined on the semiconductor substrate using masks and light exposure. These patterns correspond to the gate electrodes of the transistors, and they play a fundamental role in controlling the transistor's conductivity and operation. By carefully implementing photolithography, the gate terminals for both NMOS and PMOS transistors are formed with high precision, enabling the subsequent steps in transistor fabrication.  
+5. **LDD (lightly doped drain) formation:** In the LDD process, additional ion implantation steps are introduced after the formation of the main source and drain regions of the transistor. The key idea is to create lightly doped regions adjacent to the main source and drain regions. These lightly doped regions serve as a buffer between the channel and the heavily doped source and drain regions. The purpose of the LDD regions is to reduce the strength of the electric field near the drain, particularly in the region where the channel meets the drain. This helps to prevent the acceleration of electrons to high energies, which can lead to the hot electron effect. The hot electron effect can cause damage to the gate oxide and result in long-term reliability issues for the transistor.
+6. **Source & drain formation:** The formation of the source and drain regions in a semiconductor device is a critical step in the fabrication process. To ensure proper performance and avoid issues like channeling during ion implantation, several techniques are employed, including the use of a screen oxide layer, arsenic implantation, and annealing.  **Screen Oxide**: Before performing the source and drain ion implantation, a thin layer of screen oxide is deposited or grown on the semiconductor wafer's surface. The screen oxide serves as a protective layer during the implantation process. It helps to disperse and slow down the implanted ions, reducing the likelihood of channeling.  **Arsenic Implantation**: Arsenic (As) ions are implanted into the regions of the silicon substrate where the source and drain are to be formed. Arsenic is a common dopant used for N-type (electron-conducting) regions in CMOS technology. The implantation process introduces a controlled amount of arsenic atoms into the silicon lattice, creating N-type doping in the source and drain regions.  **Annealing**: After the arsenic implantation, the wafer is subjected to an annealing process. Annealing involves heating the wafer to high temperatures for a specified duration. During annealing, the implanted arsenic ions are activated, and any damage to the silicon crystal lattice caused by the implantation process is repaired. Annealing helps to ensure that the source and drain regions have the desired electrical properties.
+7. **Local interconnect formation:** Local interconnect formation is a important step in semiconductor device fabrication, enabling the creation of electrical connections between different components on a chip.  **Screen Oxide Removal (HF Etching):** After various processing steps, including source and drain formation, a screen oxide layer is typically deposited or grown on the semiconductor wafer's surface. This screen oxide layer serves as a protective barrier during ion implantation. However, it needs to be removed to allow for the formation of local interconnects.
+**HF Etching:** Hydrofluoric acid (HF) is commonly used to selectively etch away the screen oxide. HF is highly effective at removing silicon dioxide (SiO2) while leaving other materials like silicon (Si) and metal layers unaffected.  **Deposition of Ti (Titanium):** Once the screen oxide is removed, the next step involves depositing a layer of titanium (Ti) onto the wafer's surface. Titanium is chosen for its excellent adhesion properties and low electrical resistance.
+**Low-Resistance Contacts:** Titanium serves as the base layer for creating low-resistance electrical contacts or interconnects. It acts as an adhesion layer for subsequent metal layers (typically aluminum or copper) that will be deposited to form the actual interconnects.
+8.**Higher level metal formation:** The higher-level metal formation in semiconductor device fabrication involves creating additional layers of metal interconnects to connect various components and ensure proper functionality.  **Chemical-Mechanical Polishing** (CMP) for Planarization: After the initial layers of metal interconnects and insulating layers have been deposited and patterned, the surface of the wafer can become uneven due to the topography of the underlying structures. To ensure a flat and planar surface, CMP is employed.
+**CMP**: Chemical-Mechanical Polishing is a process that uses a combination of chemical etching and mechanical abrasion to remove excess material and achieve a smooth, flat surface. It is important for ensuring uniform layer thickness in subsequent metal layers.  **Top SiN (Silicon Nitride) Layer for Chip Protection:** To protect the completed chip from environmental factors, moisture, and physical damage, a top layer of silicon nitride (SiN) is deposited. Silicon nitride is an excellent insulator and provides a robust protective barrier.
+**Chip Protection:** This top SiN layer acts as a passivation layer, shielding the underlying components from external influences. It also helps prevent contamination and ensures the long-term reliability of the integrated circuit.
+
+Below is the final representation:  
+
+![image](https://github.com/Pruthvi-Parate/Advanced_Physical_Design_Using_OpenLANE/assets/72121158/719e565b-fa42-4d56-b82f-8550730bd940)
+
+
+
+### VSDSTDCelldesign Lab 
+
+First git clone the vsdstdcelldesign repository using below command :  
+
+``
+git clone https://github.com/nickson-jose/vsdstdcelldesign
+``  
+
+There will be `sky130_inv.mag` file 
+
+Use the sky130A.tech file from the `libs` folder when you are running the magic.
+
+To run the layout design in magic use the below command :  
+
+```
+magic -T sky130A.tech sky130_inv.mag &
+```
+
+![1](https://github.com/Pruthvi-Parate/Advanced_Physical_Design_Using_OpenLANE/assets/72121158/faddcf47-e351-49f6-a9f4-2f3536f30cde)
+
+Now if you click on any component and type `what` in terminal it will tell about the component:  
+
+![2whatnmos](https://github.com/Pruthvi-Parate/Advanced_Physical_Design_Using_OpenLANE/assets/72121158/16f547de-44bd-45dc-9e11-b2fb1f0e7f9a)
+
+Here shown the output terminal :  
+
+![3whaty](https://github.com/Pruthvi-Parate/Advanced_Physical_Design_Using_OpenLANE/assets/72121158/a897de8c-e624-4887-ba49-70a71affac5f)
+
+Now to understand this stick diagram below is representation where pdiff, ndiff, poly etc are shown:  
+
+![4cmosinfo](https://github.com/Pruthvi-Parate/Advanced_Physical_Design_Using_OpenLANE/assets/72121158/571d6378-d4b8-4fd4-b393-fc039331f4ed)
+
+**Pdiff (p-diffusion)**: Pdiff represents the P-diffusion layer in a CMOS process. This layer is used to create the N-channel MOSFETs (NMOS) in the CMOS technology. It typically represents regions where the silicon substrate is doped with a P-type dopant, creating the source and drain regions of NMOS transistors.  
+
+**Ndiff (n-diffusion**): Ndiff represents the N-diffusion layer in a CMOS process. This layer is used to create the P-channel MOSFETs (PMOS) in the CMOS technology. It typically represents regions where the silicon substrate is doped with an N-type dopant, creating the source and drain regions of PMOS transistors.  
+
+**Poly (polysilicon)**: The Poly layer represents the polysilicon layer, which is used to form the gates of both NMOS and PMOS transistors. The gates control the flow of current between the source and drain regions in these transistors.  
+
+**Pdcontact (p-diffusion contact)**: Pdcontact represents the contact points or vias used to make electrical connections to the P-diffusion layer. These contacts are used to connect metal layers to the P-diffusion regions.  
+
+**Ndcontact (n-diffusion contact**): Ndcontact represents the contact points or vias used to make electrical connections to the N-diffusion layer. These contacts are used to connect metal layers to the N-diffusion regions.
+
+**extthresh**: Using this command it is used to extract parasitic capacitance  
+
+Now to extract it to spice use below command in magic terminal :  
+
+``
+ext2spice
+``
+
+It will create `sky130_inv.spice` file : 
+
+![5spicefile](https://github.com/Pruthvi-Parate/Advanced_Physical_Design_Using_OpenLANE/assets/72121158/ab97542a-7543-49e5-80ea-b624ccb6ad46)
+
+Now include the `pshort.lib` and `nshort.lib` libraries and modified the models. 
+
+Then pulse is given in which format is below:  
+
+`PULSE(V1 V2 Tdelay Trise Tfall Ton Tperiod Ncycles)`  
+
+ Below is the modified spice file:  
+
+ ![6modifiedinv](https://github.com/Pruthvi-Parate/Advanced_Physical_Design_Using_OpenLANE/assets/72121158/7a3685dc-e894-4a35-b42c-8a6bc829298e)
+
+Now run it in ngspice :  
+
+![7ngspiceshow](https://github.com/Pruthvi-Parate/Advanced_Physical_Design_Using_OpenLANE/assets/72121158/4d16af1e-a825-4b66-b517-a73286f63e36)
+
+Now give below command :  
+
+```
+plot y vs time a
+```
+
+It will give below graph :  
+
+![8ngplot](https://github.com/Pruthvi-Parate/Advanced_Physical_Design_Using_OpenLANE/assets/72121158/78931dd9-56d1-448f-93c3-8f79e0d40cd9)
+
+
+Now if zoom the graph to find rise time difference here is the representation:  
+
+![9-zoomgraph](https://github.com/Pruthvi-Parate/Advanced_Physical_Design_Using_OpenLANE/assets/72121158/5b29d1b2-1021-4b40-bc00-aed62ba86e00)
+
+And then click on the graph it will show :  
+
+![10value](https://github.com/Pruthvi-Parate/Advanced_Physical_Design_Using_OpenLANE/assets/72121158/dc2c5cb1-8e72-4d6d-a9fd-009e75637b2f)
+
+## MAGIC DRC
+
+You can read Magic user guide from : `http://opencircuitdesign.com/magic/` 
+
+![image](https://github.com/Pruthvi-Parate/Advanced_Physical_Design_Using_OpenLANE/assets/72121158/56354c85-f2f1-4dd8-a305-567ad241c664)
+
+To use the lab contents below is the command:  
+
+```
+wget http://opencircuitdesign.com/open_pdks/archive/drc_tests.tgz
+```
+
+To extract the .tgz use below command:  
+
+```
+tar xfz drc_tests.tgz
+```
+
+Now in that extracted folder there are files like this :  
+
+![drctest](https://github.com/Pruthvi-Parate/Advanced_Physical_Design_Using_OpenLANE/assets/72121158/a1f1c8b8-82ef-4a51-ae2d-5930579cd82c)
+
+Now open the terminal to open the file give below commands:  
+
+```
+magic -d XR met3.mag
+```
+Below is the periphery rules for m3: (which can be found on `https://skywater-pdk.readthedocs.io/en/main/rules/periphery.html#m3`)   
+
+![image](https://github.com/Pruthvi-Parate/Advanced_Physical_Design_Using_OpenLANE/assets/72121158/7d65c0c6-8bef-450e-8420-810376d593e4)
+
+
+Below is the representation:  
+
+![2meg3](https://github.com/Pruthvi-Parate/Advanced_Physical_Design_Using_OpenLANE/assets/72121158/045954d6-a9e0-4f74-b9ba-6c2c578d37fc)
+
+Then with the mouse select the box and type the command it will show error of overlap, width spacing etc:  
+
+``
+drc why
+``
+
+![3errordrcwhy](https://github.com/Pruthvi-Parate/Advanced_Physical_Design_Using_OpenLANE/assets/72121158/79d04b91-b800-4379-9a1e-49d8f0041671)
+
+Now create a box and hover over the metal3 on the sidepar and press 'p' on the keyboard (p for paint) , You can also undo by pressing the 'u' key :  
+
+![image](https://github.com/Pruthvi-Parate/Advanced_Physical_Design_Using_OpenLANE/assets/72121158/eabab38d-bc25-43cd-b952-42b4e04be58e)
+
+You can also make a box on elements to see metalcuts.  
+
+Then type below command (to see metalcuts) in magic terminal :  
+
+``
+cif see VIA2
+``
+
+![4cifsee](https://github.com/Pruthvi-Parate/Advanced_Physical_Design_Using_OpenLANE/assets/72121158/f58eb19b-73b5-4aae-b1cc-0e191f58326f)
+
+### Fix poly.9 error in sky.tech file
+
+To load the poly.mag :  
+
+``
+load poly.mag
+``
+
+It will open layout of the file in magic:  
+
+![5polymag](https://github.com/Pruthvi-Parate/Advanced_Physical_Design_Using_OpenLANE/assets/72121158/1252e6bb-00c5-4e46-9893-4b63f7c457fe)
+
+You can see what are the elements by selecting it and type `what` in the terminal.  
+
+Now edit the sky.tech file. Open it in the text editor using below command:  
+
+`gedit sky130A.tech`
+
+Now search for the `poly.9`there will be 2-3 results here is one of them :  
+
+```
+spacing npres *nsd 480 touching_illegal \
+	"poly.resistor spacing to N-tap < %d (poly.9)"
+```
+
+Modify it to this :  
+
+```
+spacing npres allpolynonres 480 touching_illegal \
+	"poly.resistor spacing to N-tap < %d (poly.9)"
+```
+
+Now it should be like this :  
+
+![image](https://github.com/Pruthvi-Parate/Advanced_Physical_Design_Using_OpenLANE/assets/72121158/29b5038f-2a70-432b-b15a-5dfff7f2daf5)
+
+Now update the other one :  
+
+```
+spacing xhrpoly,uhrpoly,xpc alldiff 480 touching_illegal \
+
+	"xhrpoly/uhrpoly resistor spacing to diffusion < %d (poly.9)"
+```
+
+Modify it to this:  
+
+```
+spacing xhrpoly,uhrpoly,xpc allpolynonres 480 touching_illegal \
+
+	"xhrpoly/uhrpoly resistor spacing to diffusion < %d (poly.9)"
+```
+It should be look like this:   
+
+![image](https://github.com/Pruthvi-Parate/Advanced_Physical_Design_Using_OpenLANE/assets/72121158/eed19458-b52a-4cac-8a58-cf9a0d2a92b6)
+
+Now save it. You dont have to close the magic after the modifying the sky.tech file. Type the below command in magic's terminal:  
+
+``
+tech load sky130A.tech
+``
+In the warning click on yes.  
+Then type below command:  
+
+``
+drc check
+``
+
+Below is the modified layout:  
+
+![8copy](https://github.com/Pruthvi-Parate/Advanced_Physical_Design_Using_OpenLANE/assets/72121158/04d36d05-1814-4411-a29a-42454e82c433)
+
+### Implement poly resistor spacing
+
+Copy the three resistors by selecting (Edit > select area) and then press 'c' on keyboard.  
+You can move the copied resistors by pressing 'm' key and arrow key.  
+
+Now create n diffusion and p diffusion by creating box and selecting the `ndiff` and `pdiff` from the sidebar(by clicking the middle button of the mouse).  
+
+Then modify the sky130A.tech file by just modifying the `*nsd` to `alldiff`.  
+Now type below command in magic's terminal and all the rules will correctly identify :  
+
+``
+drc check
+``
+
+Below is the representation:  
+
+![9npdiffusion](https://github.com/Pruthvi-Parate/Advanced_Physical_Design_Using_OpenLANE/assets/72121158/ca855626-edb1-464a-a4d8-e7ab3d302ac1)
+
+### Challenge exercise to describe DRC error
+
+Open sky130A.tech file and search `cifmaxwidth` below is the representation:  
+
+![1](https://github.com/Pruthvi-Parate/Advanced_Physical_Design_Using_OpenLANE/assets/72121158/50f56848-6d90-4215-98f2-bfad07fc6f03)
+
+Below is the rule shown for nwell (which can be access by skywater sky130 pdk website) :  
+
+![3nwellrule](https://github.com/Pruthvi-Parate/Advanced_Physical_Design_Using_OpenLANE/assets/72121158/7d980717-2225-4bc5-8dcb-b2e3a7f0791b)
+
+Also refer this dnwell rules:  
+
+![2rule](https://github.com/Pruthvi-Parate/Advanced_Physical_Design_Using_OpenLANE/assets/72121158/407196cf-9a32-47fa-a29c-f0bc53812fb7)
+
+Refer this style drc in sky130A.tech file :  
+
+![4styledrc](https://github.com/Pruthvi-Parate/Advanced_Physical_Design_Using_OpenLANE/assets/72121158/daf3b70f-b1d3-44ab-9909-98a82ca63695)
+
+First create a box around cell nwell6 , Now in tkcon terminal type below commands:  
+
+![5nwell](https://github.com/Pruthvi-Parate/Advanced_Physical_Design_Using_OpenLANE/assets/72121158/b50367af-1061-496b-8e54-7687b3d035c7)
+
+![6errornwell](https://github.com/Pruthvi-Parate/Advanced_Physical_Design_Using_OpenLANE/assets/72121158/6d8f0d4a-b97a-48c5-ae4b-3a39db94e552)
+
+
+```
+cif ostyle drc
+cif see dnwell_shrink
+feed clear
+cif see nwell_missing
+feed clear
+```
+
+Here shown the representations:  
+
+![7shrink](https://github.com/Pruthvi-Parate/Advanced_Physical_Design_Using_OpenLANE/assets/72121158/b0292e43-8551-4a7b-8c70-36153cd1e5b9)
+
+
+![8feedclear](https://github.com/Pruthvi-Parate/Advanced_Physical_Design_Using_OpenLANE/assets/72121158/1762a25e-92f7-44b3-80c5-2d1f70060d74)
+
+![9final](https://github.com/Pruthvi-Parate/Advanced_Physical_Design_Using_OpenLANE/assets/72121158/4e0e24a9-a56a-49d3-92e5-6b7bfc6bd7b9)
+
+### Lab challenge to find missing or incorrect rules (creating magic DRC rule)
+
+Modify the sky130A.tech file according to below:  
+
+change the cifmaxwidth code to this :  
+
+```
+cifmaxwidth nwell_untapped 0 bend_illegal \
+
+	"Nwell missing tap (nwell.4)"
+```
+
+![ciffmax](https://github.com/Pruthvi-Parate/Advanced_Physical_Design_Using_OpenLANE/assets/72121158/cf237e7b-9017-4800-bc69-6de5204b55d9)
+
+Then modify the nwell according to this :  
+
+![nwellmodified](https://github.com/Pruthvi-Parate/Advanced_Physical_Design_Using_OpenLANE/assets/72121158/7a9dece1-35a2-4dcf-87eb-08d83daa8b39)
+
+Below is the variant modification:  
+
+![variants](https://github.com/Pruthvi-Parate/Advanced_Physical_Design_Using_OpenLANE/assets/72121158/05c855b0-7942-460b-b956-e8ae9f7f2a15)
+
+After modification give commands shown below in terminal :  
+
+``
+tech load sky130A.tech
+drc check
+drc style drc(full)
+drc check
+``
+See below there is no error for now :  
+
+![4noerror](https://github.com/Pruthvi-Parate/Advanced_Physical_Design_Using_OpenLANE/assets/72121158/99f53718-f357-4351-9cea-6fdf37aec5b1)
+
+![5drccheck](https://github.com/Pruthvi-Parate/Advanced_Physical_Design_Using_OpenLANE/assets/72121158/8b637453-83f2-42b5-a010-6282dbdb19d4)
+
+Now tapp using nsubstratencontact shown below it will change DRC:  
+
+![6final](https://github.com/Pruthvi-Parate/Advanced_Physical_Design_Using_OpenLANE/assets/72121158/760490cf-3bb4-4af9-b58f-3ea1288a77af)
+
+
 
 
 
