@@ -1117,7 +1117,7 @@ magic -T /home/shubham/.volare/sky130A/libs.tech/magic/sky130A.tech lef read ../
 ```
 ![Screenshot from 2023-09-17 22-03-56](https://github.com/ShubhamGitHub528/ASIC/assets/140998623/061a4bdd-1de2-41d9-a37e-ea8e7a75eeec)
 ![Screenshot from 2023-09-17 22-04-18](https://github.com/ShubhamGitHub528/ASIC/assets/140998623/459fc044-d4a1-4cb8-a015-6ef8fdaeea46)
-
+![Screenshot from 2023-09-18 16-27-13](https://github.com/ShubhamGitHub528/Advanced-Physical-Design-Using-OpenLane-Sky130/assets/140998623/bfad157f-6834-4eaa-9fb3-bfd668f8dcab)
 </details>
 <details>
 <summary> Post-synthesis timing analysis Using OpenSTA </summary>
