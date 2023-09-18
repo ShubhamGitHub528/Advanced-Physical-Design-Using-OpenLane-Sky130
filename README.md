@@ -4,20 +4,13 @@
 This project is done in the course ["Advanced Physical Design using OpenLANE/Sky130"](https://www.vlsisystemdesign.com/advanced-physical-design-using-openlane-sky130/) by VLSI System Design Corporation. In this project a complete RTL to GDSII flow for PicoRV32a SoC is executed with Openlane using Skywater130nm PDK. Custom designed standard cells with Sky130 PDK are also used in the flow. Timing Optimisations are carried out. Slack violations are removed. DRC is verified.
 
 
-## Table of Contents
-1. [Overview](#overview)
-2. [Inception of Opensource EDA](#inception-of-opensource-eda)
-   - [How to talk to computers](howto-talk-to-computers)
-   - [SoC Design & OpenLANE](SoC Design-&-OpenLANE)
-     + [OpenLANE ASIC Flow](OpenLANE-ASIC-Flow)
+## Day 1: Inception of open-source EDA, OpenLane and SKY130pdk.
 
+<details>
+<summary>Overview</summary>
 
-
-
-
-
-## Overview
-OpenLANE is an opensource tool or flow used for opensource tape-outs. The OpenLANE flow comprises a variety of tools such as Yosys, ABC, OpenSTA, Fault, OpenROAD app, Netgen and Magic which are used to harden chips and macros, i.e. generate final GDSII from the design RTL. The primary goal of OpenLANE is to produce clean GDSII with no human intervention. OpenLANE has been tuned to function for the Google-Skywater130 Opensource Process Design Kit.
+	
+ OpenLANE is an opensource tool or flow used for opensource tape-outs. The OpenLANE flow comprises a variety of tools such as Yosys, ABC, OpenSTA, Fault, OpenROAD app, Netgen and Magic which are used to harden chips and macros, i.e. generate final GDSII from the design RTL. The primary goal of OpenLANE is to produce clean GDSII with no human intervention. OpenLANE has been tuned to function for the Google-Skywater130 Opensource Process Design Kit.
 
 ## Inception of Opensource EDA
 
@@ -25,7 +18,11 @@ OpenLANE is an opensource tool or flow used for opensource tape-outs. The OpenLA
 
 The RISC-V Instruction Set Architecture (ISA) is a language used to talk to computers whose hardware is based on RISC-V core. If a user wishes to run a certain application software on a computer, its corresponding C/C++/Java program must be converted into instructions by the compliler. The ouput of the compiler is hardware dependent. These instructions go as inputs to the assembler which outputs binary language that the hardware logic in the chip layout can make sense of. According to the bits received, the digital logic consisting of gates performs the function required by the user of the application software.
 
-### SoC Design & OpenLANE
+</details>
+
+<details>
+<summary>SoC Design & OpenLANE</summary>
+
 
 #### Components of opensource digital ASIC design
 The design of digital Application Specific Integrated Circuit (ASIC) requires three enablers or elements - Resistor Transistor Logic Intellectual Property (RTL IPs), Electronic Design Automation (EDA) Tools and Process Design Kit (PDK) data.
@@ -100,7 +97,10 @@ From conception to product, the ASIC design flow is an iterative process that is
 
 The Skywater 130nm PDK uses 6 metal layers to perform CTS, PDN generation, and interconnect routing.
 
-### Opensource EDA tools
+</details>
+
+<details>
+<summary>Opensource EDA tools</summary>
 
 OpenLANE utilises a variety of opensource tools in the execution of the ASIC flow:
 Task | Tool/s
@@ -249,10 +249,11 @@ The openLANE file structure looks something like this:
 
 
 ![Screenshot from 2023-09-10 23-58-56](https://github.com/ShubhamGitHub528/ASIC/assets/140998623/1b5f697b-14bf-4b1c-937d-7fef6cb09061)
+</details>
 
-## Floorplanning & Placement and library cells
-
-### Floorplanning considerations
+## Day 2: Floorplanning & Placement and library cells
+<details>
+<summary> Floorplanning</summary>
 
 #### Utilization Factor & Aspect Ratio  
 
@@ -328,7 +329,10 @@ magic -T /home/shubham/.volare/sky130A/libs.tech/magic/sky130A.tech lef read ../
 ![Screenshot from 2023-09-16 06-59-08](https://github.com/ShubhamGitHub528/ASIC/assets/140998623/c7a581e4-8abf-4d90-8041-d1cb7ca03fc0)
 ![Screenshot from 2023-09-16 07-00-03](https://github.com/ShubhamGitHub528/ASIC/assets/140998623/d21f1ff0-6d90-4fc2-8461-cf47090c5347)
 
-### Placement 
+</details>
+
+<details>
+<summary>Placement </summary>
 
 #### Placement Optimization
 
@@ -368,8 +372,10 @@ The objective of placement is the convergence of overflow value. If overflow val
 ![Screenshot from 2023-09-16 10-20-10](https://github.com/ShubhamGitHub528/ASIC/assets/140998623/77de2da8-b0fc-495e-b789-a354a4b94e17)
 
 
+</details>
 
-### CELL DESIGN AND CHARACETRIZATION FLOWS
+<details>
+<summary> CELL DESIGN AND CHARACETRIZATION FLOWS</summary>
 
 Library is a place where we get information about every cell. It has differents cells with different size, functionality,threshold voltages. There is a typical cell design flow steps.
 1. Inputs : PDKS(process design kit) : DRC & LVS, SPICE Models, library & user-defined specs.
@@ -429,12 +435,13 @@ Rise transition time = time(slew_high_rise_thr) - time (slew_low_rise_thr)
 
 Low transition time = time(slew_high_fall_thr) - time (slew_low_fall_thr)
 ```
-
+</details>
 
 ## DAY 3 : Design Library Cell using magic and ngspice
-*In This section I have used my colleuge (Prutvi) github repo for referance.*  
-### Inverter
 
+
+<details>
+<summary> Inverter</summary>
 A **CMOS inverter**, short for Complementary Metal-Oxide-Semiconductor inverter, is a fundamental digital electronic circuit that performs the basic logical operation of inversion. In other words, it takes an input signal and produces an output signal that is the logical complement of the input. If the input is high (logic 1), the output will be low (logic 0), and vice versa.  
 
 The input signal is applied to the gate terminals of both the NMOS and PMOS transistors. The output is taken from the connection point (the drain of NMOS and the source of PMOS) between these two transistors.  
@@ -445,6 +452,8 @@ The input signal is applied to the gate terminals of both the NMOS and PMOS tran
 
 
 Below shown the inverter diagram : 
+
+*In This section I have used my colleuge (Prutvi) github repo for referance.*  
 
 ![inverter](https://github.com/Pruthvi-Parate/Advanced_Physical_Design_Using_OpenLANE/assets/72121158/c0f143c3-3806-4d74-a701-2d38e8475298)
 
@@ -592,8 +601,10 @@ It will show the points in ngspice terminal:
 
 ![diffckt2OutvsTimeIn](https://github.com/Pruthvi-Parate/Advanced_Physical_Design_Using_OpenLANE/assets/72121158/85cf86c9-defc-494e-a6a8-80c77c60aa77)
 
+</details>
 
-### CMOS Fabrication Process  
+<details>
+<summary>CMOS Fabrication Process </summary> 
 
 
 The 16-mask CMOS fabrication process is explained below :  
@@ -705,8 +716,10 @@ Now if zoom the graph to find rise time difference here is the representation:
 And then click on the graph it will show :  
 
 ![10value](https://github.com/Pruthvi-Parate/Advanced_Physical_Design_Using_OpenLANE/assets/72121158/dc2c5cb1-8e72-4d6d-a9fd-009e75637b2f)
+</details>
 
-## MAGIC DRC
+<details>
+<summary>DRC</summary>
 
 You can read Magic user guide from : `http://opencircuitdesign.com/magic/` 
 
@@ -934,11 +947,14 @@ See below there is no error for now :
 Now tapp using nsubstratencontact shown below it will change DRC:  
 
 ![6final](https://github.com/Pruthvi-Parate/Advanced_Physical_Design_Using_OpenLANE/assets/72121158/760490cf-3bb4-4af9-b58f-3ea1288a77af)
+</details>
 
 
-## Pre-Layout Timing Analysis.
 
-## Standard Cell LEF generation
+## Day 4: Pre-Layout Timing Analysis
+
+<details>
+<summary> Standard Cell LEF generation </summary>
 
 During Placement, entire mag information is not necessary. Only the PR boundary, I/O ports, Power and ground rails of the cell is required. This information is defined in LEF file.
 The main objective is to extract lef from the mag file and plug into our design flow.
@@ -1068,8 +1084,9 @@ sta report:
 ![Screenshot from 2023-09-17 17-25-42](https://github.com/ShubhamGitHub528/ASIC/assets/140998623/388132db-f7e7-4de7-8fbe-12b694260212)
 ![Screenshot from 2023-09-17 17-40-42](https://github.com/ShubhamGitHub528/ASIC/assets/140998623/e815eaa2-144a-4039-8151-414589001fee)
 
-
-## Delay Tables
+</details>
+<details>
+<summary> Delay Tables</summary>
 
 Basically, Delay is a parameter that has huge impact on our cells in the design. Delay decides each and every other factor in timing. 
 For a cell with different size, threshold voltages, delay model table is created where we can it as timing table.
@@ -1103,8 +1120,9 @@ magic -T /home/shubham/.volare/sky130A/libs.tech/magic/sky130A.tech lef read ../
 ![Screenshot from 2023-09-17 22-03-56](https://github.com/ShubhamGitHub528/ASIC/assets/140998623/061a4bdd-1de2-41d9-a37e-ea8e7a75eeec)
 ![Screenshot from 2023-09-17 22-04-18](https://github.com/ShubhamGitHub528/ASIC/assets/140998623/459fc044-d4a1-4cb8-a015-6ef8fdaeea46)
 
-
-### Post-synthesis timing analysis Using OpenSTA 
+</details>
+<details>
+<summary> Post-synthesis timing analysis Using OpenSTA </summary>
 
 Timing analysis is carried out outside the openLANE flow using OpenSTA tool. For this, ```pre_sta.conf``` is required to carry out the STA analysis. Invoke OpenSTA outside the openLANE flow as follows:
  
@@ -1136,7 +1154,12 @@ Skew, Jitter and Margin comes into clock_uncertainity
 ```  Clock Jitter : deviation of clock edge from its original position. ```
 
 From the timing report, we can improve slack by upsizing the cells i.e., by replacing the cells with high drive strength and we can see significant changes in the slack.
-### Clock Tree Synthesis using Tritoncts
+
+
+</details>
+<details>
+<summary>Clock Tree Synthesis using Tritoncts</summary>
+	
 Clock tree synthesis (CTS) can be implemented in various ways, and the choice of the specific technique depends on the design requirements, constraints, and goals. Here are some different types or approaches to clock tree synthesis:
 
 Balanced Tree CTS:
@@ -1227,11 +1250,14 @@ Report after post_cts is
 
 ``` Setup slack - 2.2379 , Hold slack - 0.1869 ```
 
+</details>
 
+## Day5: Final steps for RTL2GDS using tritonRoute and OpenSTA.
 
-## Triton Route Features
+</details>
+<details>
+<summary> Routing and Design Rule Check </summary>
 
-### Routing and Design Rule Check 
 __Maze Routing__
 
 Routing is the process of creating physical connections based on logical connectivity. Signal pins are connected by routing metal interconnects. Routed metal paths must meet timing, clock skew, max trans/cap requirements and also physical DRC requirements.
@@ -1262,8 +1288,9 @@ Minimum width of the wire Minimum spacing between the wires Minimum pitch of the
 
 
 
-
-### Power Distribution Network and Summary
+</details>
+<details>
+<summary> Power Distribution Network and Summary</summary>
 
 __Build Power Distribution Network__
 
@@ -1307,7 +1334,9 @@ __Layout in MAGIC post routing__
 
 ![image](https://github.com/Sushma-Ravindra/Advanced_Physical_Design_using-_OpenLane/assets/141133883/472dfcee-6b81-4283-95e7-632d8bdc7952)
 
-### Triton Route Features
+</details>
+<details>
+<summary>Triton Route Features</summary>
 
 __Preprocessed route guides__
 
@@ -1364,6 +1393,7 @@ I sciencerly thank **Mr. Kunal Ghosh**(Founder/**VSD**) for helping me out to co
 ## Acknowledgement
 - Kunal Ghosh, VSD Corp. Pvt. Ltd.
 - Chatgpt
+- Devipriya
 - Alwin,Colleague,IIIT B
 - Pruthvi Parate,Colleague,IIIT B
 - Sushma,Colleague,IIIT B
